@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ujian Microbit Kids - Tantangan Robotika Interaktif</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -webkit-touch-callout: none;
+    }
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* Anti-Copy and Screenshot/Selection Protection */
+    .no-select {
+      user-select: none;
+      -webkit-user-select: none;
+      pointer-events: auto;
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    /* MakeCode block simulator chips */
+    .mc-block {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.55rem;
+      border-radius: 0.375rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 1px 2px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+      border-bottom: 2px solid rgba(0,0,0,0.3);
+    }
+    .mc-basic    { background-color: #0078d7; }
+    .mc-input    { background-color: #d80073; }
+    .mc-loops    { background-color: #107c10; }
+    .mc-logic    { background-color: #008272; }
+    .mc-var      { background-color: #d13438; }
+    .mc-math     { background-color: #68217a; }
+    .mc-servo    { background-color: #ff8c00; }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col no-select antialiased">
+
+  <!-- Top Sticky Navigation Bar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-sky-500/20">
+          <i class="fa-solid fa-microchip text-lg"></i>
+        </div>
+        <div>
+          <h1 class="font-extrabold text-base md:text-lg text-slate-800 tracking-tight leading-tight flex items-center gap-2">
+            Ujian Microbit Kids
+            <span class="bg-sky-100 text-sky-700 text-[11px] px-2 py-0.5 rounded-full font-bold">12 Tahun</span>
+          </h1>
+          <p class="text-xs text-slate-400 font-medium hidden sm:block">Platform & Interactive Box Challenge</p>
+        </div>
+      </div>
+
+      <!-- Student & Security Badges -->
+      <div class="flex items-center gap-2.5">
+        <div id="studentHeaderBadge" class="hidden items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 font-bold text-xs">
+          <i class="fa-regular fa-user text-slate-500"></i>
+          <span id="headerStudentName" class="max-w-[120px] truncate">Siswa</span>
+        </div>
+
+        <!-- Timer Badge -->
+        <div id="quizTimerBadge" class="hidden items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 text-amber-700 font-mono-code font-bold text-xs md:text-sm border border-amber-200">
+          <i class="fa-regular fa-clock"></i>
+          <span id="countdownTimer">20:00</span>
+        </div>
+
+        <!-- Security Pill -->
+        <div class="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-200">
+          <i class="fa-solid fa-shield-halved text-emerald-600"></i>
+          <span class="hidden md:inline">Anti-Copy Aktif</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Multi-Screen Container -->
+  <main class="flex-1 max-w-4xl w-full mx-auto p-4 md:p-6 flex flex-col justify-center">
+
+    <!-- ================= SCREEN 1: WELCOME SCREEN ================= -->
+    <section id="screenWelcome" class="w-full bg-white rounded-3xl p-6 md:p-10 border border-slate-200 shadow-sm text-center">
+      <div class="inline-flex p-3 rounded-2xl bg-sky-50 text-sky-600 mb-4 border border-sky-100">
+        <i class="fa-solid fa-graduation-cap text-3xl"></i>
+      </div>
+      <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-2">Ulangan Harian: micro:bit Kids</h2>
+      <p class="text-sm md:text-base text-slate-500 mb-6 max-w-lg mx-auto">
+        Uji kemampuan logika dan pemahaman modul robotika MakeCode micro:bit! Kerjakan dengan mandiri dan teliti.
+      </p>
+
+      <!-- Topic Grid & Rules -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6 text-left">
+        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+          <span class="text-xs text-slate-400 font-semibold block">Total Soal</span>
+          <span class="text-lg font-bold text-slate-800">15 Butir</span>
+          <span class="text-[11px] text-slate-500 font-medium">9 Teori &bull; 6 Praktik</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-sky-50 border border-sky-100 text-sky-950">
+          <span class="text-xs text-sky-600 font-semibold block">Durasi Ujian</span>
+          <span class="text-lg font-bold text-sky-800">20 Menit</span>
+          <span class="text-[11px] text-sky-600 font-medium">Auto-Submit</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-100 text-emerald-950">
+          <span class="text-xs text-emerald-600 font-semibold block">Materi Proyek</span>
+          <span class="text-lg font-bold text-emerald-800">Yahboom</span>
+          <span class="text-[11px] text-emerald-600 font-medium">Platform & Box</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-purple-50 border border-purple-100 text-purple-950">
+          <span class="text-xs text-purple-600 font-semibold block">Ketentuan</span>
+          <span class="text-lg font-bold text-purple-800">1x Ujian</span>
+          <span class="text-[11px] text-purple-600 font-medium">Terkunci otomatis</span>
+        </div>
+      </div>
+
+      <!-- Topics Pills List -->
+      <div class="flex flex-wrap items-center justify-center gap-2 mb-8">
+        <span class="px-3 py-1 bg-slate-100 rounded-xl text-xs font-semibold text-slate-600">🏗️ Lifting Platform</span>
+        <span class="px-3 py-1 bg-slate-100 rounded-xl text-xs font-semibold text-slate-600">📦 Interactive Box</span>
+        <span class="px-3 py-1 bg-slate-100 rounded-xl text-xs font-semibold text-slate-600">🔁 Loops & Logic</span>
+        <span class="px-3 py-1 bg-slate-100 rounded-xl text-xs font-semibold text-slate-600">📐 Math: map, round, random</span>
+      </div>
+
+      <!-- Student Input Form -->
+      <div class="max-w-md mx-auto text-left space-y-4 mb-8">
+        <div>
+          <label for="studentNameInput" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            Nama Lengkap Siswa <span class="text-rose-500">*</span>
+          </label>
+          <input type="text" id="studentNameInput" placeholder="Ketik nama lengkapmu di sini..." class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500 text-slate-800 font-medium text-sm">
+        </div>
+      </div>
+
+      <!-- Start Button -->
+      <button onclick="handleStartExam()" class="w-full max-w-md mx-auto py-3.5 px-6 rounded-2xl bg-sky-600 hover:bg-sky-500 active:scale-[0.99] text-white font-bold text-base shadow-lg shadow-sky-600/25 transition flex items-center justify-center gap-2">
+        <span>Mulai Kerjakan Ujian</span>
+        <i class="fa-solid fa-arrow-right text-sm"></i>
+      </button>
+
+      <p class="mt-4 text-xs text-slate-400 flex items-center justify-center gap-1.5">
+        <i class="fa-solid fa-triangle-exclamation text-amber-500"></i>
+        <span>Peringatan: Ujian hanya dapat dikerjakan satu kali dan tidak dapat direset!</span>
+      </p>
+    </section>
+
+    <!-- ================= SCREEN 2: QUIZ INTERACTIVE SCREEN ================= -->
+    <section id="screenQuiz" class="hidden flex-col gap-4">
+
+      <!-- Progress Navigator Bar -->
+      <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex flex-col gap-3">
+        <div class="flex items-center justify-between text-xs">
+          <span id="questionCounterText" class="font-bold text-slate-700">Soal 1 dari 15</span>
+          <span id="answeredCounterText" class="font-semibold text-slate-400">0 Terjawab</span>
+        </div>
+
+        <!-- Visual Horizontal Progress Bar -->
+        <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+          <div id="quizProgressBar" class="bg-sky-500 h-2 rounded-full transition-all duration-300" style="width: 6.66%;"></div>
+        </div>
+
+        <!-- Pill Navigator Numbers (1 to 15) -->
+        <div id="pillNavigator" class="flex flex-wrap gap-1.5 pt-1 justify-center sm:justify-start">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- Question Card Container -->
+      <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm flex flex-col gap-5 relative">
+        
+        <!-- Topic & Question Category Badges -->
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <span id="badgeQuestionType" class="px-2.5 py-1 rounded-xl text-xs font-bold bg-sky-100 text-sky-800">
+              🧠 Soal Teori
+            </span>
+            <span id="badgeQuestionTopic" class="px-2.5 py-1 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600">
+              Topik: MakeCode
+            </span>
+          </div>
+          <span class="text-xs text-slate-400 font-mono-code font-bold">Poin: 1 Soal</span>
+        </div>
+
+        <!-- Question Prompt -->
+        <h3 id="questionPrompt" class="text-base md:text-lg font-bold text-slate-800 leading-snug">
+          <!-- Dynamic Question text -->
+        </h3>
+
+        <!-- Code Block Container (Optional) -->
+        <div id="codeSnippetBox" class="hidden rounded-2xl bg-slate-900 border border-slate-800 p-4 text-white overflow-x-auto shadow-inner">
+          <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-800 text-xs text-slate-400">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
+              <span class="font-mono-code text-[11px] ml-1 text-slate-300">MakeCode Block Inspector</span>
+            </div>
+            <span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider"><i class="fa-solid fa-lock mr-1"></i>Protected</span>
+          </div>
+          <div id="codeSnippetContent" class="font-mono-code text-xs md:text-sm leading-relaxed space-y-2">
+            <!-- Dynamic Code Representation -->
+          </div>
+        </div>
+
+        <!-- Options Container (A, B, C, D) -->
+        <div id="optionsContainer" class="space-y-3">
+          <!-- Options rendered dynamically -->
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+          <button id="btnPrev" onclick="navigateQuestion(-1)" class="px-5 py-2.5 rounded-2xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs md:text-sm transition flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed">
+            <i class="fa-solid fa-chevron-left text-xs"></i>
+            <span>Sebelumnya</span>
+          </button>
+
+          <button id="btnNext" onclick="navigateQuestion(1)" class="px-5 py-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs md:text-sm transition flex items-center gap-2">
+            <span>Selanjutnya</span>
+            <i class="fa-solid fa-chevron-right text-xs"></i>
+          </button>
+
+          <button id="btnSubmitExam" onclick="openConfirmationModal()" class="hidden px-5 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs md:text-sm shadow-md shadow-emerald-600/20 transition flex items-center gap-2">
+            <span>Kirim Jawaban 🚀</span>
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ================= SCREEN 3: RESULTS & REVIEW SCREEN ================= -->
+    <section id="screenResults" class="hidden flex-col gap-6">
+
+      <!-- Score Summary Card -->
+      <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm text-center relative overflow-hidden">
+        <div class="absolute -top-16 -right-16 w-48 h-48 bg-sky-100 rounded-full blur-2xl opacity-60 pointer-events-none"></div>
+        <div class="absolute -bottom-16 -left-16 w-48 h-48 bg-emerald-100 rounded-full blur-2xl opacity-60 pointer-events-none"></div>
+
+        <div id="resultTrophyBadge" class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-amber-100 text-amber-600 mb-3 text-3xl shadow-inner">
+          <i class="fa-solid fa-award"></i>
+        </div>
+
+        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-1">Hasil Evaluasi Belajar</h2>
+        <p id="studentGreetingResult" class="text-sm font-semibold text-slate-500 mb-5">Hebat, Ujian Selesai!</p>
+
+        <!-- Big Score Metric -->
+        <div class="max-w-xs mx-auto p-5 rounded-2xl bg-gradient-to-b from-slate-900 to-slate-800 text-white mb-6 shadow-lg shadow-slate-900/10">
+          <span class="text-xs uppercase font-bold tracking-widest text-slate-400">Nilai Akhir Ujian</span>
+          <div class="text-4xl md:text-5xl font-extrabold tracking-tight mt-1 flex items-baseline justify-center gap-1">
+            <span id="finalScoreVal">0</span>
+            <span class="text-lg text-slate-400 font-semibold">/ 100</span>
+          </div>
+          <div class="mt-2 pt-2 border-t border-slate-700/60 flex justify-around text-xs">
+            <span>Benar: <strong id="correctSummary" class="text-emerald-400">0</strong> / 15</span>
+            <span>Akurasi: <strong id="accuracySummary" class="text-sky-400">0%</strong></span>
+          </div>
+        </div>
+
+        <!-- Lock Warning Notice -->
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 text-slate-600 text-xs font-semibold mb-6 border border-slate-200">
+          <i class="fa-solid fa-lock text-slate-500"></i>
+          <span>Ujian telah selesai dan tidak dapat diulang kembali.</span>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <button onclick="scrollToReviewSection()" class="px-5 py-2.5 rounded-2xl bg-sky-50 text-sky-700 hover:bg-sky-100 border border-sky-200 font-bold text-xs md:text-sm transition flex items-center gap-2">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Buka Pembahasan Lengkap</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Detailed Question Breakdown -->
+      <div id="detailedReviewContainer" class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-800">Lembar Pembahasan Lengkap</h3>
+            <p class="text-xs text-slate-400">Kunci jawaban dan alasan ilmiah di balik setiap instruksi robotika.</p>
+          </div>
+          <span class="text-xs font-bold px-3 py-1 bg-slate-100 text-slate-600 rounded-full">15 Soal</span>
+        </div>
+
+        <div id="reviewItemsList" class="space-y-4">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================= SCREEN 4: LOCKED SCREEN (ONE-TIME SUBMISSION) ================= -->
+    <section id="screenLocked" class="hidden max-w-lg mx-auto w-full bg-white rounded-3xl p-6 md:p-10 border border-slate-200 shadow-sm text-center">
+      <div class="w-16 h-16 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+      <h2 class="text-2xl font-extrabold text-slate-800 mb-2">Ujian Telah Terkunci</h2>
+      <p class="text-sm text-slate-500 mb-6">
+        Kamu telah menyelesaikan ujian ini sebelumnya. Berdasarkan ketentuan, ujian hanya dapat dikerjakan <strong class="text-slate-700">1 (satu) kali</strong> untuk memastikan integritas penilaian.
+      </p>
+
+      <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 max-w-sm mx-auto mb-6 text-left space-y-2 text-xs">
+        <div class="flex justify-between">
+          <span class="text-slate-400 font-semibold">Nama Siswa:</span>
+          <span id="lockedStudentName" class="font-bold text-slate-800">-</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400 font-semibold">Skor Tercatat:</span>
+          <span id="lockedScoreVal" class="font-bold text-sky-600 text-sm">0 / 100</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400 font-semibold">Tanggal Selesai:</span>
+          <span id="lockedSubmitDate" class="font-semibold text-slate-600">-</span>
+        </div>
+      </div>
+
+      <button onclick="viewLockedReview()" class="w-full py-3 px-5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition flex items-center justify-center gap-2">
+        <i class="fa-solid fa-book-open"></i>
+        <span>Lihat Lembar Jawaban & Pembahasan 📖</span>
+      </button>
+    </section>
+
+  </main>
+
+  <!-- Pop-Up Modal: Confirmation Before Final Submission -->
+  <div id="modalConfirmSubmit" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 border border-slate-200 shadow-xl text-center space-y-4">
+      <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl mx-auto">
+        <i class="fa-solid fa-circle-exclamation"></i>
+      </div>
+      <div>
+        <h4 class="font-extrabold text-slate-800 text-lg">Kumpulkan Ujian Sekarang?</h4>
+        <p id="confirmModalText" class="text-xs text-slate-500 mt-1 leading-relaxed">
+          Apakah kamu yakin ingin mengumpulkan seluruh lembar jawaban?
+        </p>
+      </div>
+      <div class="flex gap-2.5">
+        <button onclick="closeConfirmationModal()" class="flex-1 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs transition">
+          Cek Lagi
+        </button>
+        <button onclick="executeSubmitExam(false)" class="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/20 transition">
+          Ya, Kirimkan!
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Floating Box -->
+  <div id="toastNotification" class="fixed bottom-5 right-5 z-50 translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-slate-900 text-white text-xs font-semibold px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 border border-slate-700">
+    <i class="fa-solid fa-shield-halved text-amber-400"></i>
+    <span id="toastMessage">🔒 Soal & kode dilindungi untuk kejujuran belajar!</span>
+  </div>
+
+  <script>
+    /* Question Data Definition: 9 Teori (60%) + 6 Praktik (40%) = 15 Soal */
+    const questions = [
+      // 1. TEORI - Blok Basic
+      {
+        id: 1,
+        type: "teori",
+        topic: "MakeCode Basic",
+        question: "Di MakeCode micro:bit, pada kategori manakah kita dapat menemukan blok instruksi 'on start' dan blok untuk menampilkan pola gambar pada matriks 5x5 LED?",
+        options: [
+          "Basic (Dasar)",
+          "Music (Musik)",
+          "Math (Matematika)",
+          "Radio"
+        ],
+        answer: 0,
+        explanation: "Kategori 'Basic' (warna biru muda) adalah tempat untuk blok fondasi program seperti `on start`, `forever`, `show leds`, dan `show number`."
+      },
+
+      // 2. TEORI - Hardware & Power Supply (Lifting & Interactive Box)
+      {
+        id: 2,
+        type: "teori",
+        topic: "Perangkat Keras (Hardware)",
+        question: "Mengapa pada petunjuk proyek Yahboom kita diwajibkan menggunakan kabel USB bercabang ganda (double-headed USB cable) ke komputer?",
+        options: [
+          "Agar micro:bit dapat berbicara dengan dua komputer secara bersamaan",
+          "Karena motor servo membutuhkan arus daya ekstra agar tidak gagal gerak akibat kekurangan suplai listrik",
+          "Supaya mikroprosesor micro:bit tidak menjadi cepat panas saat komputasi",
+          "Agar lampu LED pada layar dapat berubah warna secara otomatis"
+        ],
+        answer: 1,
+        explanation: "Motor servo mengonsumsi arus listrik yang cukup besar. Kabel bercabang ganda membagi dan menyuplai daya dari komputer ke papan ekspansi dan micro:bit sekaligus, mencegah servo macet (stall)."
+      },
+
+      // 3. TEORI - Mekanika & Kalibrasi Servo
+      {
+        id: 3,
+        type: "teori",
+        topic: "Kalibrasi Servo",
+        question: "Sebelum memasang balok lego ke gir servo, mengapa langkah kalibrasi sudut servo wajib dijalankan terlebih dahulu?",
+        options: [
+          "Mencegah poros gir servo macet (jamming/stall) akibat salah sudut rakit yang dapat merusak gir motor servo",
+          "Agar baterai cadangan pada micro:bit terisi penuh melalui gelombang udara",
+          "Supaya motor servo bisa berputar tanpa memerlukan instruksi kode sama sekali",
+          "Untuk mengubah jenis servo putar 180° menjadi roda ban mobil"
+        ],
+        answer: 0,
+        explanation: "Jika balok dirakit tanpa kalibrasi sudut awal, pergerakan mekanis balok dapat mentok melebihi batas fisik servo, memicu stalling yang berisiko membakar gir servo."
+      },
+
+      // 4. TEORI - Proyek Lifting Platform
+      {
+        id: 4,
+        type: "teori",
+        topic: "Lifting Platform",
+        question: "Ketika mengunduh kode kalibrasi untuk proyek Lifting Platform (Servo-calibration-Lifting-platform.hex), pola apa yang tampil di layar dot-matrix jika proses kalibrasi berhasil?",
+        options: [
+          "Pola huruf 'L'",
+          "Pola angka '3'",
+          "Simbol wajah tersenyum (Smile)",
+          "Tanda centang (Checkmark)"
+        ],
+        answer: 1,
+        explanation: "Berdasarkan lembar panduan Yahboom Lifting Platform langkah 2.4, saat kalibrasi berhasil micro:bit akan menampilkan pola angka '3' pada layar dot matrix LED."
+      },
+
+      // 5. TEORI - Proyek Interactive Box
+      {
+        id: 5,
+        type: "teori",
+        topic: "Interactive Box",
+        question: "Ketika mengunduh kode kalibrasi untuk proyek Interactive Box (Servo-calibration-Interactive-box.hex), pola angka berapa yang ditampilkan pada layar micro:bit?",
+        options: [
+          "Pola angka '0'",
+          "Pola angka '1'",
+          "Pola angka '4'",
+          "Pola angka '9'"
+        ],
+        answer: 2,
+        explanation: "Sesuai panduan Yahboom Interactive Box langkah 2.4, layar dot matrix LED akan menampilkan pola angka '4' setelah kalibrasi servo selesai dengan sukses."
+      },
+
+      // 6. TEORI - Sensor Inframerah
+      {
+        id: 6,
+        type: "teori",
+        topic: "Interactive Box",
+        question: "Pada proyek Interactive Box, apa peran utama dari modul sensor inframerah (Infrared module) yang terpasang?",
+        options: [
+          "Mendeteksi halangan balok stick saat ditegakkan di depan sensor untuk memicu balasan servo",
+          "Mengukur suhu udara ruangan lego secara nirkabel",
+          "Memancarkan sinar radio untuk bertukar pesan teks dengan robot lain",
+          "Mengukur tingkat intensitas suara kebisingan di dalam ruangan"
+        ],
+        answer: 0,
+        explanation: "Sensor inframerah memancarkan dan menerima pantulan gelombang inframerah untuk mendeteksi rintangan (obstacle), yaitu tongkat balok yang ditegakkan oleh pengguna di depan sensor."
+      },
+
+      // 7. TEORI - Blok Logic
+      {
+        id: 7,
+        type: "teori",
+        topic: "MakeCode Logic",
+        question: "Struktur logika percabangan keputusan seperti 'if [kondisi] then ... else ...' digunakan untuk apa dalam pemrograman robot?",
+        options: [
+          "Mengulang kode terus-menerus tanpa henti",
+          "Mengambil keputusan tindakan berbeda berdasarkan kondisi sensor yang terbaca",
+          "Mengubah angka desimal menjadi suara melodi lagu",
+          "Membuat koneksi bluetooth nirkabel"
+        ],
+        answer: 1,
+        explanation: "Blok percabangan 'if ... then ... else' pada kategori Logic berguna untuk mengevaluasi suatu kondisi (misalnya: apakah ada rintangan?) dan menjalankan perintah khusus sesuai kondisi tersebut."
+      },
+
+      // 8. TEORI - Perkabelan Pinout
+      {
+        id: 8,
+        type: "teori",
+        topic: "Wiring & Pinout",
+        question: "Berdasarkan diagram pengkabelan modul tombol (Button module) proyek Lifting Platform, kabel sinyal luaran (OUT) dihubungkan ke pin micro:bit nomor berapa?",
+        options: [
+          "Pin P0",
+          "Pin P1",
+          "Pin P8",
+          "Pin P9"
+        ],
+        answer: 2,
+        explanation: "Sesuai panduan wiring Yahboom Button Module: GND terhubung ke GND, NC ke P9, OUT (sinyal tombol) ke pin P8, dan VCC ke tegangan 3.3V."
+      },
+
+      // 9. TEORI - Blok Math: map
+      {
+        id: 9,
+        type: "teori",
+        topic: "MakeCode Math",
+        question: "Apa fungsi utama dari blok matematika 'map [value] from low ... high ... to low ... high ...' di MakeCode?",
+        options: [
+          "Menghapus seluruh variabel yang ada di memori",
+          "Mengubah/memetakan rentang nilai suatu skala sensor ke dalam rentang nilai skala target yang berbeda",
+          "Menggambar peta navigasi peta dunia di layar LED micro:bit",
+          "Mengunci putaran servo agar berhenti bergerak"
+        ],
+        answer: 1,
+        explanation: "Fungsi `map` berguna untuk penskalaan nilai, misalnya mengubah input sensor suara (rentang 0-255) ke rentang skor layar (0-9) atau sudut servo (0-150)."
+      },
+
+      // 10. PRAKTIK - Analisis Kode Map Joystick
+      {
+        id: 10,
+        type: "praktik",
+        topic: "Analisis Kode & Math (map)",
+        question: "Perhatikan blok perhitungan analog joystick pada fungsi doJoystick_control berikut. Jika tuas joystick pada Pin P0 berada di posisi tengah/bawah dengan nilai 520, berapakah nilai variabel 'a' yang dihasilkan?",
+        code: `<div class="mc-block mc-var">set a to</div> <div class="mc-block mc-math">map (analog read pin P0) from low 520 high 1023 to low 0 high 150</div>`,
+        options: [
+          "0",
+          "150",
+          "520",
+          "1023"
+        ],
+        answer: 0,
+        explanation: "Fungsi `map` mengonversi rentang sumber [520 s/d 1023] ke [0 s/d 150]. Karena input bernilai 520 (batas terendah dari rentang input), maka hasil pemetaannya adalah 0 (batas terendah target)."
+      },
+
+      // 11. PRAKTIK - Analisis Durasi Loop
+      {
+        id: 11,
+        type: "praktik",
+        topic: "Analisis Blok Loops",
+        question: "Pada fungsi pendeteksi suara proyek Lifting Platform, terdapat blok pengulangan (loops) berikut. Berapa total waktu jeda (durasi) yang dihabiskan untuk menyelesaikan 20 kali putaran loop tersebut?",
+        code: `<div class="mc-block mc-loops">repeat 20 times do</div>
+<div class="pl-4 border-l-2 border-emerald-500/50 my-1 space-y-1">
+  <div><span class="mc-block mc-var">set sound to sound level</span></div>
+  <div><span class="mc-block mc-basic">plot bar graph of sound up to 255</span></div>
+  <div><span class="mc-block mc-basic">pause (ms) 50</span></div>
+</div>`,
+        options: [
+          "100 milidetik (0,1 detik)",
+          "500 milidetik (0,5 detik)",
+          "1000 milidetik (1,0 detik)",
+          "2000 milidetik (2,0 detik)"
+        ],
+        answer: 2,
+        explanation: "Di setiap putaran terdapat jeda `pause 50 ms`. Karena diulang sebanyak 20 kali, total durasi adalah 20 × 50 ms = 1000 milidetik (setara 1 detik penuh)."
+      },
+
+      // 12. PRAKTIK - Math: pick random & Logic
+      {
+        id: 12,
+        type: "praktik",
+        topic: "Interactive Box & Math (random)",
+        question: "Perhatikan fungsi doHit pada Interactive Box berikut. Kondisi apa yang harus terpenuhi agar micro:bit bereaksi 'sangat kesal' dengan memukul servo berulang kali (repeat pick random 2 to 5 times)?",
+        code: `<div class="mc-block mc-var">set num to</div> <div class="mc-block mc-math">pick random 0 to 3</div>
+<div><span class="mc-block mc-logic">if num == 3 then</span></div>
+<div class="pl-4 border-l-2 border-teal-500/50 my-1">
+  <span class="mc-block mc-loops">repeat pick random 2 to 5 times do ...</span>
+</div>`,
+        options: [
+          "Setiap kali tombol A micro:bit ditekan",
+          "Hanya ketika angka acak yang dihasilkan pada variabel 'num' bernilai tepat 3",
+          "Kapan pun sensor inframerah melihat ada tangan di depannya",
+          "Ketika variabel num bernilai angka 0"
+        ],
+        answer: 1,
+        explanation: "Kondisi `if num == 3 then` memeriksa apakah variabel acak `num` bernilai tepat 3. Dari pilihan rentang 0 sampai 3 (0, 1, 2, 3), aksi ekstra hanya berjalan jika angka 3 yang terpilih."
+      },
+
+      // 13. PRAKTIK - Math: round & map
+      {
+        id: 13,
+        type: "praktik",
+        topic: "MakeCode Math (round & map)",
+        question: "Perhatikan kode konversi skor suara berikut. Jika ruangan sangat berisik sehingga intensitas suara (sound) terbaca maksimal di angka 255, skor apa yang muncul di layar LED?",
+        code: `<div class="mc-block mc-var">set score to</div> <div class="mc-block mc-math">round (map sound from low 0 high 255 to low 0 high 9)</div>
+<div><span class="mc-block mc-basic">show number score</span></div>`,
+        options: [
+          "Angka 0",
+          "Angka 9",
+          "Angka 100",
+          "Angka 255"
+        ],
+        answer: 1,
+        explanation: "Fungsi `map` mengubah skala 0–255 ke 0–9. Karena nilai input berada di puncak maksimal yaitu 255, luaran yang dibulatkan oleh `round()` adalah angka 9."
+      },
+
+      // 14. PRAKTIK - Troubleshooting Servo Ganda
+      {
+        id: 14,
+        type: "praktik",
+        topic: "Lifting Platform Troubleshooting",
+        question: "Platform pengangkat digerakkan oleh 2 servo: Servo Kiri (P1) dan Servo Kanan (P2). Jika murid lupa menuliskan blok inisialisasi untuk Servo P2 pada blok 'on start', apa kendala mekanis yang akan terjadi?",
+        code: `<div class="mc-block mc-basic">on start</div>
+<div class="pl-4 border-l-2 border-sky-500/50 my-1">
+  <div><span class="mc-block mc-servo">Servo(360) pin P1 value 100</span></div>
+  <div class="text-xs text-rose-400 font-mono italic">// Perintah Servo P2 terlupa / tidak ditulis!</div>
+</div>`,
+        options: [
+          "Kedua servo tetap bekerja normal dan seimbang",
+          "Hanya servo P1 yang turun ke posisi dasar, sedangkan servo P2 tidak terinisialisasi sehingga platform menjadi miring atau tersangkut",
+          "Papan micro:bit akan langsung mati total",
+          "Sensor inframerah akan menyala merah secara otomatis"
+        ],
+        answer: 1,
+        explanation: "Karena platform pengangkat membutuhkan dua servo yang bergerak simetris, ketiadaan instruksi pada servo P2 menyebabkan posisinya tidak seimbang dengan P1, membuat platform miring dan macet."
+      },
+
+      // 15. PRAKTIK - Alur Logika Forever Loop
+      {
+        id: 15,
+        type: "praktik",
+        topic: "Interactive Box Control Flow",
+        question: "Pada proyek Interactive Box, balok stick sudah ditegakkan di depan sensor IR, namun servo sama sekali tidak memukul balik. Setelah dicek, loop forever tampak seperti kode di bawah. Di mana letak kesalahannya?",
+        code: `<div class="mc-block mc-basic">forever</div>
+<div class="pl-4 border-l-2 border-sky-500/50 my-1 space-y-1">
+  <div><span class="mc-block mc-logic">if IR pin P2P3 value Obstacle then</span></div>
+  <div class="pl-4 text-xs text-amber-300 font-mono italic">// Kosong! Fungsi doHit lupa dipanggil di sini!</div>
+  <div><span class="mc-block mc-logic">else if IR pin P2P3 value NoObstacle then</span></div>
+  <div class="pl-4"><span class="mc-block mc-loops">call doWithdraw</span></div>
+</div>`,
+        options: [
+          "Program lupa menyisipkan perintah 'call doHit' di dalam blok kondisi ketika terdeteksi rintangan (Obstacle)",
+          "Kabel GND dan VCC terbalik di dalam kode pemrograman",
+          "Perintah doWithdraw seharusnya dihapus karena tidak dibutuhkan",
+          "Sensor inframerah tidak boleh dipasang pada loop forever"
+        ],
+        answer: 0,
+        explanation: "Di dalam blok `if IR pin value Obstacle then`, slot instruksinya kosong. Akibatnya ketika rintangan terdeteksi, micro:bit tidak menjalankan perintah apapun. Seharusnya subrutin `call doHit` dipanggil di situ."
+      }
+    ];
+
+    const STORAGE_KEY = "microbit_kids_exam_v1";
+    const TOTAL_DURATION_SECONDS = 20 * 60; // 20 Menit = 1200 detik
+
+    let currentQuestionIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let studentName = "";
+    let timeRemaining = TOTAL_DURATION_SECONDS;
+    let timerInterval = null;
+    let isExamActive = false;
+
+    // Toast alert controller
+    function showToast(message) {
+      const toast = document.getElementById('toastNotification');
+      const toastMsg = document.getElementById('toastMessage');
+      if (message) toastMsg.innerText = message;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 2500);
+    }
+
+    // Anti-Copy & Anti-Cheat Event Handlers
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      showToast("🔒 Soal & kode dilindungi untuk kejujuran belajar!");
+    });
+
+    document.addEventListener('keydown', (e) => {
+      // Check for Ctrl or Command shortcuts
+      const isModifier = e.ctrlKey || e.metaKey;
+      const blockedKeys = ['c', 'C', 'x', 'X', 'u', 'U', 's', 'S', 'p', 'P', 'a', 'A'];
+      
+      // Block devtools shortcut (F12 or Ctrl+Shift+I / Cmd+Option+I)
+      if (e.key === 'F12' || (isModifier && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c'))) {
+        e.preventDefault();
+        showToast("🔒 Soal & kode dilindungi untuk kejujuran belajar!");
+        return;
+      }
+
+      if (isModifier && blockedKeys.includes(e.key)) {
+        e.preventDefault();
+        showToast("🔒 Soal & kode dilindungi untuk kejujuran belajar!");
+      }
+    });
+
+    document.addEventListener('dragstart', (e) => e.preventDefault());
+
+    // Check localStorage on initial page load
+    window.addEventListener('DOMContentLoaded', () => {
+      checkExistingSubmission();
+    });
+
+    function checkExistingSubmission() {
+      const savedData = localStorage.getItem(STORAGE_KEY);
+      if (savedData) {
+        try {
+          const parsed = JSON.parse(savedData);
+          showLockedScreen(parsed);
+          return true;
+        } catch (e) {
+          console.error("Storage corrupted", e);
+        }
+      }
+      return false;
+    }
+
+    function showLockedScreen(record) {
+      document.getElementById('screenWelcome').classList.add('hidden');
+      document.getElementById('screenQuiz').classList.add('hidden');
+      document.getElementById('screenResults').classList.add('hidden');
+      
+      const lockedScreen = document.getElementById('screenLocked');
+      lockedScreen.classList.remove('hidden');
+      lockedScreen.classList.add('flex', 'flex-col');
+
+      document.getElementById('lockedStudentName').innerText = record.studentName || "Siswa";
+      document.getElementById('lockedScoreVal').innerText = `${record.score} / 100`;
+      document.getElementById('lockedSubmitDate').innerText = record.submittedAt || "Hari ini";
+    }
+
+    function viewLockedReview() {
+      const savedData = localStorage.getItem(STORAGE_KEY);
+      if (savedData) {
+        const record = JSON.parse(savedData);
+        userAnswers = record.answers || new Array(questions.length).fill(null);
+        studentName = record.studentName || "Siswa";
+        renderResultsView(record.score, record.correctCount);
+      }
+    }
+
+    function handleStartExam() {
+      const nameInput = document.getElementById('studentNameInput').value.trim();
+      if (!nameInput) {
+        showToast("⚠️ Harap tulis nama lengkapmu sebelum memulai!");
+        document.getElementById('studentNameInput').focus();
+        return;
+      }
+
+      studentName = nameInput;
+      document.getElementById('headerStudentName').innerText = studentName;
+      document.getElementById('studentHeaderBadge').classList.remove('hidden');
+      document.getElementById('studentHeaderBadge').classList.add('flex');
+
+      // Switch screens
+      document.getElementById('screenWelcome').classList.add('hidden');
+      document.getElementById('screenQuiz').classList.remove('hidden');
+      document.getElementById('screenQuiz').classList.add('flex');
+
+      // Show Timer
+      document.getElementById('quizTimerBadge').classList.remove('hidden');
+      document.getElementById('quizTimerBadge').classList.add('flex');
+
+      isExamActive = true;
+      startTimer();
+      renderPillNavigator();
+      renderQuestion();
+    }
+
+    function startTimer() {
+      clearInterval(timerInterval);
+      updateTimerDisplay();
+
+      timerInterval = setInterval(() => {
+        if (timeRemaining > 0) {
+          timeRemaining--;
+          updateTimerDisplay();
+
+          // Visual warning when <= 3 minutes (180 seconds)
+          const timerBadge = document.getElementById('quizTimerBadge');
+          if (timeRemaining <= 180) {
+            timerBadge.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-50 text-rose-700 font-mono-code font-bold text-xs md:text-sm border border-rose-200 animate-pulse';
+          }
+        } else {
+          // Timer finished -> auto-submit
+          clearInterval(timerInterval);
+          isExamActive = false;
+          showToast("⏰ Waktu habis! Jawaban kamu dikumpulkan otomatis.");
+          setTimeout(() => {
+            executeSubmitExam(true);
+          }, 1000);
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const mins = Math.floor(timeRemaining / 60);
+      const secs = timeRemaining % 60;
+      const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      document.getElementById('countdownTimer').innerText = formatted;
+    }
+
+    function renderPillNavigator() {
+      const nav = document.getElementById('pillNavigator');
+      nav.innerHTML = '';
+
+      questions.forEach((_, idx) => {
+        const isCurrent = idx === currentQuestionIndex;
+        const isAnswered = userAnswers[idx] !== null;
+
+        const pill = document.createElement('button');
+        pill.type = 'button';
+        pill.onclick = () => {
+          currentQuestionIndex = idx;
+          renderQuestion();
+        };
+
+        let styleClasses = 'w-7 h-7 sm:w-8 sm:h-8 rounded-xl font-bold text-xs transition flex items-center justify-center border ';
+        if (isCurrent) {
+          styleClasses += 'bg-slate-900 text-white border-slate-900 ring-2 ring-slate-900 ring-offset-1';
+        } else if (isAnswered) {
+          styleClasses += 'bg-sky-500 text-white border-sky-600';
+        } else {
+          styleClasses += 'bg-slate-100 hover:bg-slate-200 text-slate-600 border-slate-200';
+        }
+
+        pill.className = styleClasses;
+        pill.innerText = idx + 1;
+        nav.appendChild(pill);
+      });
+    }
+
+    function renderQuestion() {
+      const q = questions[currentQuestionIndex];
+      const isAnswered = userAnswers[currentQuestionIndex] !== null;
+
+      // Update Header Text & Progress Bar
+      document.getElementById('questionCounterText').innerText = `Soal ${currentQuestionIndex + 1} dari ${questions.length}`;
+      const answeredTotal = userAnswers.filter(a => a !== null).length;
+      document.getElementById('answeredCounterText').innerText = `${answeredTotal} Terjawab`;
+
+      const progressPercent = Math.round(((currentQuestionIndex + 1) / questions.length) * 100);
+      document.getElementById('quizProgressBar').style.width = `${progressPercent}%`;
+
+      // Update Badges
+      const badgeType = document.getElementById('badgeQuestionType');
+      if (q.type === 'teori') {
+        badgeType.className = 'px-2.5 py-1 rounded-xl text-xs font-bold bg-sky-100 text-sky-800';
+        badgeType.innerHTML = '<i class="fa-solid fa-brain mr-1"></i>Soal Teori (60%)';
+      } else {
+        badgeType.className = 'px-2.5 py-1 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800';
+        badgeType.innerHTML = '<i class="fa-solid fa-code mr-1"></i>Soal Praktik (40%)';
+      }
+      document.getElementById('badgeQuestionTopic').innerText = `Topik: ${q.topic}`;
+
+      // Set Prompt Text
+      document.getElementById('questionPrompt').innerText = q.question;
+
+      // Code Block Handling
+      const codeBox = document.getElementById('codeSnippetBox');
+      const codeContent = document.getElementById('codeSnippetContent');
+      if (q.code) {
+        codeContent.innerHTML = q.code;
+        codeBox.classList.remove('hidden');
+      } else {
+        codeBox.classList.add('hidden');
+        codeContent.innerHTML = '';
+      }
+
+      // Render Options A, B, C, D
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const letters = ['A', 'B', 'C', 'D'];
+      q.options.forEach((optText, optIndex) => {
+        const isSelected = userAnswers[currentQuestionIndex] === optIndex;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.onclick = () => selectAnswer(optIndex);
+
+        btn.className = `w-full p-4 rounded-2xl border text-left transition flex items-center justify-between group ${
+          isSelected 
+            ? 'bg-sky-50 border-sky-500 shadow-xs ring-2 ring-sky-500/20' 
+            : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700'
+        }`;
+
+        btn.innerHTML = `
+          <div class="flex items-center gap-3.5">
+            <span class="w-8 h-8 rounded-xl flex items-center justify-center font-extrabold text-xs transition ${
+              isSelected 
+                ? 'bg-sky-600 text-white' 
+                : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'
+            }">
+              ${letters[optIndex]}
+            </span>
+            <span class="text-sm font-semibold text-slate-800 leading-snug">${optText}</span>
+          </div>
+          <div class="w-5 h-5 rounded-full border flex items-center justify-center ${
+            isSelected ? 'border-sky-600 bg-sky-600 text-white' : 'border-slate-300'
+          }">
+            ${isSelected ? '<i class="fa-solid fa-check text-[10px]"></i>' : ''}
+          </div>
+        `;
+
+        optionsContainer.appendChild(btn);
+      });
+
+      // Update Navigation Buttons State
+      document.getElementById('btnPrev').disabled = (currentQuestionIndex === 0);
+      const isLast = currentQuestionIndex === questions.length - 1;
+      const btnNext = document.getElementById('btnNext');
+      const btnSubmit = document.getElementById('btnSubmitExam');
+
+      if (isLast) {
+        btnNext.classList.add('hidden');
+        btnSubmit.classList.remove('hidden');
+      } else {
+        btnNext.classList.remove('hidden');
+        btnSubmit.classList.add('hidden');
+      }
+
+      renderPillNavigator();
+    }
+
+    function selectAnswer(optIndex) {
+      userAnswers[currentQuestionIndex] = optIndex;
+      renderQuestion();
+    }
+
+    function navigateQuestion(step) {
+      const nextIndex = currentQuestionIndex + step;
+      if (nextIndex >= 0 && nextIndex < questions.length) {
+        currentQuestionIndex = nextIndex;
+        renderQuestion();
+      }
+    }
+
+    function openConfirmationModal() {
+      const unanswered = userAnswers.filter(a => a === null).length;
+      const modal = document.getElementById('modalConfirmSubmit');
+      const text = document.getElementById('confirmModalText');
+
+      if (unanswered > 0) {
+        text.innerHTML = `Kamu telah menjawab <strong class="text-slate-800">${questions.length - unanswered}</strong> dari <strong class="text-slate-800">${questions.length}</strong> soal.<br><span class="text-rose-600 font-bold">Perhatian: Masih ada ${unanswered} soal yang belum diisi!</span>`;
+      } else {
+        text.innerText = "Semua soal sudah dijawab dengan lengkap! Kamu siap mengumpulkan lembar jawaban?";
+      }
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeConfirmationModal() {
+      document.getElementById('modalConfirmSubmit').classList.add('hidden');
+    }
+
+    function executeSubmitExam(isAutoSubmit = false) {
+      closeConfirmationModal();
+      clearInterval(timerInterval);
+      isExamActive = false;
+
+      // Score Calculation
+      let correctCount = 0;
+      questions.forEach((q, idx) => {
+        if (userAnswers[idx] === q.answer) {
+          correctCount++;
+        }
+      });
+
+      const finalScore = Math.round((correctCount / questions.length) * 100);
+
+      // Save to localStorage (Strict Lockout)
+      const record = {
+        studentName: studentName,
+        score: finalScore,
+        correctCount: correctCount,
+        answers: userAnswers,
+        submittedAt: new Date().toLocaleDateString('id-ID', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        })
+      };
+
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(record));
+      } catch (err) {
+        console.error("Local storage error:", err);
+      }
+
+      renderResultsView(finalScore, correctCount);
+    }
+
+    function renderResultsView(finalScore, correctCount) {
+      // Hide other screens
+      document.getElementById('screenWelcome').classList.add('hidden');
+      document.getElementById('screenQuiz').classList.add('hidden');
+      document.getElementById('screenLocked').classList.add('hidden');
+      document.getElementById('quizTimerBadge').classList.add('hidden');
+
+      const resultsScreen = document.getElementById('screenResults');
+      resultsScreen.classList.remove('hidden');
+      resultsScreen.classList.add('flex', 'flex-col');
+
+      // Populate Metrics
+      document.getElementById('studentGreetingResult').innerText = `Selamat, ${studentName}! Berikut rekap capaian belajarmu:`;
+      document.getElementById('finalScoreVal').innerText = finalScore;
+      document.getElementById('correctSummary').innerText = correctCount;
+      document.getElementById('accuracySummary').innerText = `${finalScore}%`;
+
+      // Trigger Confetti for High Achievers (>= 85%)
+      if (finalScore >= 85 && typeof confetti === 'function') {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+        setTimeout(() => {
+          confetti({
+            particleCount: 50,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 }
+          });
+          confetti({
+            particleCount: 50,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 }
+          });
+        }, 300);
+      }
+
+      // Trophy Badge Icon Adjustment
+      const trophyBadge = document.getElementById('resultTrophyBadge');
+      if (finalScore >= 85) {
+        trophyBadge.className = 'inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-amber-100 text-amber-600 mb-3 text-3xl shadow-inner';
+        trophyBadge.innerHTML = '<i class="fa-solid fa-crown text-amber-500"></i>';
+      } else if (finalScore >= 70) {
+        trophyBadge.className = 'inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-sky-100 text-sky-600 mb-3 text-3xl shadow-inner';
+        trophyBadge.innerHTML = '<i class="fa-solid fa-award text-sky-500"></i>';
+      } else {
+        trophyBadge.className = 'inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-slate-100 text-slate-600 mb-3 text-3xl shadow-inner';
+        trophyBadge.innerHTML = '<i class="fa-solid fa-seedling text-emerald-500"></i>';
+      }
+
+      // Render Detailed Question Review
+      renderReviewBreakdown();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderReviewBreakdown() {
+      const container = document.getElementById('reviewItemsList');
+      container.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+
+      questions.forEach((q, idx) => {
+        const studentAnsIdx = userAnswers[idx];
+        const isCorrect = (studentAnsIdx === q.answer);
+        const correctText = q.options[q.answer];
+        const studentText = studentAnsIdx !== null ? q.options[studentAnsIdx] : null;
+
+        const card = document.createElement('div');
+        card.className = `p-5 rounded-2xl border transition ${
+          isCorrect ? 'bg-emerald-50/40 border-emerald-200' : 'bg-rose-50/40 border-rose-200'
+        }`;
+
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-3 mb-2">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg text-xs font-bold flex items-center justify-center ${
+                isCorrect ? 'bg-emerald-600 text-white' : 'bg-rose-600 text-white'
+              }">
+                ${idx + 1}
+              </span>
+              <span class="text-xs font-bold text-slate-500">${q.type === 'teori' ? '🧠 Teori' : '💻 Praktik'} &bull; ${q.topic}</span>
+            </div>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold ${
+              isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
+            }">
+              ${isCorrect ? '<i class="fa-solid fa-check mr-1"></i>Benar' : '<i class="fa-solid fa-xmark mr-1"></i>Kurang Tepat'}
+            </span>
+          </div>
+
+          <p class="font-bold text-slate-800 text-sm mb-3">${q.question}</p>
+
+          ${q.code ? `
+            <div class="mb-3 rounded-xl bg-slate-900 p-3 text-white font-mono-code text-xs overflow-x-auto">
+              ${q.code}
+            </div>
+          ` : ''}
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs mb-3 font-semibold">
+            <div class="p-2.5 rounded-xl ${
+              studentAnsIdx !== null 
+                ? (isCorrect ? 'bg-emerald-100 text-emerald-900' : 'bg-rose-100 text-rose-900') 
+                : 'bg-slate-200 text-slate-700'
+            }">
+              <span class="block text-[10px] uppercase font-bold text-slate-500 mb-0.5">Jawaban Kamu:</span>
+              ${studentAnsIdx !== null ? `${letters[studentAnsIdx]}. ${studentText}` : '<em>Tidak dijawab</em>'}
+            </div>
+            <div class="p-2.5 rounded-xl bg-emerald-100 text-emerald-900">
+              <span class="block text-[10px] uppercase font-bold text-emerald-700 mb-0.5">Kunci Jawaban Benar:</span>
+              ${letters[q.answer]}. ${correctText}
+            </div>
+          </div>
+
+          <div class="p-3 rounded-xl bg-white border border-slate-200/80 text-xs text-slate-600 leading-relaxed">
+            <strong class="text-slate-800 font-bold block mb-1">
+              <i class="fa-solid fa-lightbulb text-amber-500 mr-1.5"></i>Alasan & Penjelasan Ilmiah:
+            </strong>
+            ${q.explanation}
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function scrollToReviewSection() {
+      document.getElementById('detailedReviewContainer').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
