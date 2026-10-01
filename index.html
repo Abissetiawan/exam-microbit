@@ -72,6 +72,8 @@
     .mc-var      { background-color: #d13438; }
     .mc-math     { background-color: #68217a; }
     .mc-servo    { background-color: #ff8c00; }
+    .mc-sensor   { background-color: #008080; }
+    .mc-music    { background-color: #e3008c; }
   </style>
 </head>
 
@@ -87,6 +89,7 @@
         <div>
           <h1 class="font-extrabold text-base md:text-lg text-slate-800 tracking-tight leading-tight flex items-center gap-2">
             Ujian Microbit Kids
+            <span class="bg-sky-100 text-sky-700 text-[11px] px-2 py-0.5 rounded-full font-bold">12 Tahun</span>
           </h1>
           <p class="text-xs text-slate-400 font-medium hidden sm:block">Platform & Interactive Box Challenge</p>
         </div>
@@ -131,8 +134,8 @@
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6 text-left">
         <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
           <span class="text-xs text-slate-400 font-semibold block">Total Soal</span>
-          <span class="text-lg font-bold text-slate-800">15 Butir</span>
-          <span class="text-[11px] text-slate-500 font-medium">9 Teori &bull; 6 Praktik</span>
+          <span class="text-lg font-bold text-slate-800">16 Butir</span>
+          <span class="text-[11px] text-slate-500 font-medium">4 Teori (25%) &bull; 12 Praktik (75%)</span>
         </div>
         <div class="p-3.5 rounded-2xl bg-sky-50 border border-sky-100 text-sky-950">
           <span class="text-xs text-sky-600 font-semibold block">Durasi Ujian</span>
@@ -140,9 +143,9 @@
           <span class="text-[11px] text-sky-600 font-medium">Auto-Submit</span>
         </div>
         <div class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-100 text-emerald-950">
-          <span class="text-xs text-emerald-600 font-semibold block">Materi Proyek</span>
-          <span class="text-lg font-bold text-emerald-800">Yahboom</span>
-          <span class="text-[11px] text-emerald-600 font-medium">Platform & Box</span>
+          <span class="text-xs text-emerald-600 font-semibold block">Materi Kit</span>
+          <span class="text-lg font-bold text-emerald-800">WOM Kit</span>
+          <span class="text-[11px] text-emerald-600 font-medium">Yahboom Sensors</span>
         </div>
         <div class="p-3.5 rounded-2xl bg-purple-50 border border-purple-100 text-purple-950">
           <span class="text-xs text-purple-600 font-semibold block">Ketentuan</span>
@@ -153,10 +156,10 @@
 
       <!-- Topics Pills List -->
       <div class="flex flex-wrap items-center justify-center gap-2 mb-8">
-        <span class="px-3 py-1 bg-slate-100 rounded-xl text-xs font-semibold text-slate-600">🏗️ Lifting Platform</span>
-        <span class="px-3 py-1 bg-slate-100 rounded-xl text-xs font-semibold text-slate-600">📦 Interactive Box</span>
-        <span class="px-3 py-1 bg-slate-100 rounded-xl text-xs font-semibold text-slate-600">🔁 Loops & Logic</span>
-        <span class="px-3 py-1 bg-slate-100 rounded-xl text-xs font-semibold text-slate-600">📐 Math: map, round, random</span>
+        <span class="px-3 py-1 bg-slate-100 rounded-xl text-xs font-semibold text-slate-600">📡 Ultrasonic & PIR</span>
+        <span class="px-3 py-1 bg-slate-100 rounded-xl text-xs font-semibold text-slate-600">💡 RGB & Digital Tube</span>
+        <span class="px-3 py-1 bg-slate-100 rounded-xl text-xs font-semibold text-slate-600">🎨 Color Recognition</span>
+        <span class="px-3 py-1 bg-slate-100 rounded-xl text-xs font-semibold text-slate-600">🌡️ Temp-Humidity & Rocker</span>
       </div>
 
       <!-- Student Input Form -->
@@ -387,276 +390,350 @@
   </div>
 
   <script>
-    /* Question Data Definition: 9 Teori (60%) + 6 Praktik (40%) = 15 Soal */
     const questions = [
-      // 1. TEORI - Blok Basic
+      // 1. TEORI - Pustaka Ekstensi MakeCode Yahboom
       {
         id: 1,
         type: "teori",
-        topic: "MakeCode Basic",
-        question: "Di MakeCode micro:bit, pada kategori manakah kita dapat menemukan blok instruksi 'on start' dan blok untuk menampilkan pola gambar pada matriks 5x5 LED?",
+        topic: "Ekstensi MakeCode",
+        question: "Saat memprogram modul sensor kit Yahboom (WOM Sensor Kit) di MakeCode, kita perlu memasukkan URL paket ekstensi khusus. Apa fungsi utama dari penambahan paket ekstensi tersebut?",
         options: [
-          "Basic (Dasar)",
-          "Music (Musik)",
-          "Math (Matematika)",
-          "Radio"
+          "Menyediakan blok kode khusus untuk membaca sensor dan modul Yahboom yang belum ada di menu standar MakeCode",
+          "Mengisi daya baterai micro:bit secara otomatis tanpa kabel daya",
+          "Mengubah tampilan micro:bit menjadi berwarna merah menyala",
+          "Menghapus seluruh file memori internal pada micro:bit"
         ],
         answer: 0,
-        explanation: "Kategori 'Basic' (warna biru muda) adalah tempat untuk blok fondasi program seperti `on start`, `forever`, `show leds`, dan `show number`."
+        explanation: "Papan ekstensi dan modul sensor Yahboom memerlukan package tambahan (seperti `Module-World`) agar blok-blok khusus seperti pembacaan sensor ultrasonik, tabung digital, RGB, dan sensor warna dapat digunakan di MakeCode."
       },
 
-      // 2. TEORI - Hardware & Power Supply (Lifting & Interactive Box)
+      // 2. TEORI - Sensor Ultrasonik vs Sensor Inframerah
       {
         id: 2,
         type: "teori",
-        topic: "Perangkat Keras (Hardware)",
-        question: "Mengapa pada petunjuk proyek Yahboom kita diwajibkan menggunakan kabel USB bercabang ganda (double-headed USB cable) ke komputer?",
+        topic: "Prinsip Sensor Jarak",
+        question: "Pada kit sensor Yahboom terdapat modul Ultrasonic dan Infrared. Mengapa modul Ultrasonic lebih disukai untuk membuat alat pengukur jarak sentimeter yang akurat (Hand-held rangefinder) dibandingkan sensor inframerah halangan?",
         options: [
-          "Agar micro:bit dapat berbicara dengan dua komputer secara bersamaan",
-          "Karena motor servo membutuhkan arus daya ekstra agar tidak gagal gerak akibat kekurangan suplai listrik",
-          "Supaya mikroprosesor micro:bit tidak menjadi cepat panas saat komputasi",
-          "Agar lampu LED pada layar dapat berubah warna secara otomatis"
+          "Sensor ultrasonik tidak membutuhkan listrik sama sekali",
+          "Sensor ultrasonik memantulkan gelombang suara untuk mengukur jarak fisik secara presisi, sedangkan sensor inframerah halangan hanya mendeteksi ada/tidaknya halangan di jarak sangat dekat",
+          "Sensor ultrasonik dapat mengubah warna secara otomatis di kegelapan",
+          "Sensor inframerah tidak bisa membaca benda yang diam"
         ],
         answer: 1,
-        explanation: "Motor servo mengonsumsi arus listrik yang cukup besar. Kabel bercabang ganda membagi dan menyuplai daya dari komputer ke papan ekspansi dan micro:bit sekaligus, mencegah servo macet (stall)."
+        explanation: "Modul Ultrasonic (gelombang suara frekuensi tinggi) menghitung waktu pantulan gelombang sehingga mampu mengukur jarak fisik benda dalam satuan cm. Sensor IR halangan pada kit umumnya mendeteksi rintangan biner (ada rintangan / tidak) pada jarak dekat."
       },
 
-      // 3. TEORI - Mekanika & Kalibrasi Servo
+      // 3. TEORI - Modul Tabung Digital (Digital Tube)
       {
         id: 3,
         type: "teori",
-        topic: "Kalibrasi Servo",
-        question: "Sebelum memasang balok lego ke gir servo, mengapa langkah kalibrasi sudut servo wajib dijalankan terlebih dahulu?",
+        topic: "Display Modul",
+        question: "Apa keunggulan modul Tabung Digital 4-Digit (Digital Tube module) dibandingkan layar dot-matrix 5x5 bawaan micro:bit ketika menampilkan angka 4 digit seperti '1250'?",
         options: [
-          "Mencegah poros gir servo macet (jamming/stall) akibat salah sudut rakit yang dapat merusak gir motor servo",
-          "Agar baterai cadangan pada micro:bit terisi penuh melalui gelombang udara",
-          "Supaya motor servo bisa berputar tanpa memerlukan instruksi kode sama sekali",
-          "Untuk mengubah jenis servo putar 180° menjadi roda ban mobil"
+          "Digital tube langsung menampilkan keempat angka sekaligus tanpa harus menunggu animasi teks bergeser (scrolling)",
+          "Digital tube bisa memutar lagu mp3 tanpa tambahan speaker",
+          "Digital tube tidak membutuhkan kabel sinyal data",
+          "Digital tube dapat mengukur berat beban secara langsung"
         ],
         answer: 0,
-        explanation: "Jika balok dirakit tanpa kalibrasi sudut awal, pergerakan mekanis balok dapat mentok melebihi batas fisik servo, memicu stalling yang berisiko membakar gir servo."
+        explanation: "Matriks LED 5x5 micro:bit hanya dapat menampilkan 1 karakter dalam satu waktu (angka puluhan/ribuan harus berjalan/scrolling). Modul Digital Tube 4-digit mampu menampilkan seluruh angka hingga 4 digit secara serentak dan jelas."
       },
 
-      // 4. TEORI - Proyek Lifting Platform
+      // 4. TEORI - Modul PIR Human Body Sensor
       {
         id: 4,
         type: "teori",
-        topic: "Lifting Platform",
-        question: "Ketika mengunduh kode kalibrasi untuk proyek Lifting Platform (Servo-calibration-Lifting-platform.hex), pola apa yang tampil di layar dot-matrix jika proses kalibrasi berhasil?",
+        topic: "Human Body Sensor (PIR)",
+        question: "Pada proyek alarm pengaman ruangan (Human body warning device), teknologi apa yang digunakan oleh modul Human Body Infrared (PIR) untuk mengetahui adanya orang di ruangan?",
         options: [
-          "Pola huruf 'L'",
-          "Pola angka '3'",
-          "Simbol wajah tersenyum (Smile)",
-          "Tanda centang (Checkmark)"
-        ],
-        answer: 1,
-        explanation: "Berdasarkan lembar panduan Yahboom Lifting Platform langkah 2.4, saat kalibrasi berhasil micro:bit akan menampilkan pola angka '3' pada layar dot matrix LED."
-      },
-
-      // 5. TEORI - Proyek Interactive Box
-      {
-        id: 5,
-        type: "teori",
-        topic: "Interactive Box",
-        question: "Ketika mengunduh kode kalibrasi untuk proyek Interactive Box (Servo-calibration-Interactive-box.hex), pola angka berapa yang ditampilkan pada layar micro:bit?",
-        options: [
-          "Pola angka '0'",
-          "Pola angka '1'",
-          "Pola angka '4'",
-          "Pola angka '9'"
-        ],
-        answer: 2,
-        explanation: "Sesuai panduan Yahboom Interactive Box langkah 2.4, layar dot matrix LED akan menampilkan pola angka '4' setelah kalibrasi servo selesai dengan sukses."
-      },
-
-      // 6. TEORI - Sensor Inframerah
-      {
-        id: 6,
-        type: "teori",
-        topic: "Interactive Box",
-        question: "Pada proyek Interactive Box, apa peran utama dari modul sensor inframerah (Infrared module) yang terpasang?",
-        options: [
-          "Mendeteksi halangan balok stick saat ditegakkan di depan sensor untuk memicu balasan servo",
-          "Mengukur suhu udara ruangan lego secara nirkabel",
-          "Memancarkan sinar radio untuk bertukar pesan teks dengan robot lain",
-          "Mengukur tingkat intensitas suara kebisingan di dalam ruangan"
+          "Mendeteksi radiasi panas sinar inframerah pasif yang dipancarkan secara alami oleh tubuh manusia yang bergerak",
+          "Menghitung berat langkah kaki menggunakan timbangan pegas",
+          "Mengukur gelombang radio Wi-Fi di ponsel pengguna",
+          "Mendeteksi tiupan angin dari pernapasan manusia"
         ],
         answer: 0,
-        explanation: "Sensor inframerah memancarkan dan menerima pantulan gelombang inframerah untuk mendeteksi rintangan (obstacle), yaitu tongkat balok yang ditegakkan oleh pengguna di depan sensor."
+        explanation: "Sensor PIR (Passive Infrared) mendeteksi perubahan radiasi panas (termal inframerah) yang dipancarkan oleh tubuh manusia atau makhluk hidup ketika bergerak di depan sensor."
       },
 
-      // 7. TEORI - Blok Logic
+      // 5. PRAKTIK - Pintu Otomatis (Ultrasonic & Servo)
+      {
+        id: 5,
+        type: "praktik",
+        topic: "Proyek Automatic Door (Ultrasonic & Servo)",
+        question: "Perhatikan blok program pintu otomatis berikut. Jika seseorang berdiri di depan pintu dengan jarak 8 cm dari sensor ultrasonik, apa yang akan terjadi pada servo P1?",
+        code: `<div class="mc-block mc-basic">forever</div>
+<div class="pl-4 border-l-2 border-sky-500/50 my-1 space-y-1">
+  <div><span class="mc-block mc-var">set distance to</span> <span class="mc-block mc-sensor">read ultrasonic sensor (cm)</span></div>
+  <div><span class="mc-block mc-logic">if distance &lt; 15 then</span></div>
+  <div class="pl-4"><span class="mc-block mc-servo">set Servo pin P1 to 90</span> <span class="text-xs text-slate-400 font-mono">// Buka Pintu</span></div>
+  <div><span class="mc-block mc-logic">else</span></div>
+  <div class="pl-4"><span class="mc-block mc-servo">set Servo pin P1 to 0</span> <span class="text-xs text-slate-400 font-mono">// Tutup Pintu</span></div>
+</div>`,
+        options: [
+          "Servo P1 bergerak ke sudut 90° (Pintu terbuka)",
+          "Servo P1 tetap di sudut 0° (Pintu tertutup)",
+          "Servo P1 berputar terus menerus tanpa henti 360°",
+          "Sensor ultrasonik akan mati seketika"
+        ],
+        answer: 0,
+        explanation: "Karena jarak yang terbaca adalah 8 cm, dan nilai 8 lebih kecil dari 15 (8 < 15 bernilai benar/TRUE), maka perintah di dalam blok if dieksekusi, yaitu memutar servo ke sudut 90° (membuka pintu)."
+      },
+
+      // 6. PRAKTIK - Lampu Meja Cerdas (Photosensitive & RGB)
+      {
+        id: 6,
+        type: "praktik",
+        topic: "Proyek Table Lamp (Photosensitive & RGB)",
+        question: "Program berikut mengatur lampu meja belajar otomatis. Jika kondisi ruangan menjadi sangat redup/gelap sehingga sensor cahaya membaca nilai 180, apa respon lampu RGB?",
+        code: `<div class="mc-block mc-basic">forever</div>
+<div class="pl-4 border-l-2 border-sky-500/50 my-1 space-y-1">
+  <div><span class="mc-block mc-var">set light_val to</span> <span class="mc-block mc-sensor">Photosensitive read light intensity</span></div>
+  <div><span class="mc-block mc-logic">if light_val &lt; 300 then</span></div>
+  <div class="pl-4"><span class="mc-block mc-sensor">RGB show color WHITE</span></div>
+  <div><span class="mc-block mc-logic">else</span></div>
+  <div class="pl-4"><span class="mc-block mc-sensor">RGB turn OFF</span></div>
+</div>`,
+        options: [
+          "Lampu RGB akan menyala terang berwarna PUTIH (WHITE)",
+          "Lampu RGB tetap mati (OFF)",
+          "Lampu RGB berkedip warna merah",
+          "Micro:bit mengeluarkan bunyi sirine darurat"
+        ],
+        answer: 0,
+        explanation: "Nilai sensor cahaya yang terbaca adalah 180. Karena 180 < 300 bernilai BENAR (kondisi gelap), program menjalankan instruksi pertama yaitu menyalakan RGB dengan warna PUTIH (WHITE)."
+      },
+
+      // 7. PRAKTIK - Modul RGB (Color Mixing)
       {
         id: 7,
-        type: "teori",
-        topic: "MakeCode Logic",
-        question: "Struktur logika percabangan keputusan seperti 'if [kondisi] then ... else ...' digunakan untuk apa dalam pemrograman robot?",
+        type: "praktik",
+        topic: "Modul RGB (Percampuran Warna)",
+        question: "Perhatikan blok perintah pengaturan nilai warna pada modul RGB Yahboom berikut. Warna visual apakah yang akan dipancarkan oleh lampu RGB tersebut?",
+        code: `<div class="mc-block mc-sensor">RGB set Red 255 Green 255 Blue 0</div>`,
         options: [
-          "Mengulang kode terus-menerus tanpa henti",
-          "Mengambil keputusan tindakan berbeda berdasarkan kondisi sensor yang terbaca",
-          "Mengubah angka desimal menjadi suara melodi lagu",
-          "Membuat koneksi bluetooth nirkabel"
+          "Warna Kuning (Yellow)",
+          "Warna Biru Laut (Cyan)",
+          "Warna Ungu (Magenta)",
+          "Warna Hitam / Padam"
         ],
-        answer: 1,
-        explanation: "Blok percabangan 'if ... then ... else' pada kategori Logic berguna untuk mengevaluasi suatu kondisi (misalnya: apakah ada rintangan?) dan menjalankan perintah khusus sesuai kondisi tersebut."
+        answer: 0,
+        explanation: "Dalam pencampuran cahaya optik aditif RGB (Red-Green-Blue): Merah maksimal (255) dipadukan dengan Hijau maksimal (255) tanpa warna Biru (0) akan menghasilkan warna Kuning terang (Yellow)."
       },
 
-      // 8. TEORI - Perkabelan Pinout
+      // 8. PRAKTIK - Modul Celengan Cerdas (Digital Tube Counter)
       {
         id: 8,
-        type: "teori",
-        topic: "Wiring & Pinout",
-        question: "Berdasarkan diagram pengkabelan modul tombol (Button module) proyek Lifting Platform, kabel sinyal luaran (OUT) dihubungkan ke pin micro:bit nomor berapa?",
+        type: "praktik",
+        topic: "Proyek Piggy Bank (Digital Tube Counter)",
+        question: "Pada proyek celengan cerdas (Piggy Bank), sensor IR mendeteksi koin yang masuk. Jika koin sudah dimasukkan sebanyak 3 kali berturut-turut, angka berapakah yang kini tampil di modul Digital Tube?",
+        code: `<div class="mc-block mc-basic">on start</div>
+<div class="pl-4 border-l-2 border-sky-500/50 my-1">
+  <div><span class="mc-block mc-var">set coin_count to 0</span></div>
+  <div><span class="mc-block mc-sensor">Digital Tube show number coin_count</span></div>
+</div>
+<div class="mc-block mc-basic">forever</div>
+<div class="pl-4 border-l-2 border-sky-500/50 my-1 space-y-1">
+  <div><span class="mc-block mc-logic">if IR module detect Obstacle then</span></div>
+  <div class="pl-4 space-y-1">
+    <div><span class="mc-block mc-var">change coin_count by 1</span></div>
+    <div><span class="mc-block mc-sensor">Digital Tube show number coin_count</span></div>
+    <div><span class="mc-block mc-basic">pause (ms) 500</span></div>
+  </div>
+</div>`,
         options: [
-          "Pin P0",
-          "Pin P1",
-          "Pin P8",
-          "Pin P9"
+          "Angka 3",
+          "Angka 0",
+          "Angka 1",
+          "Angka 300"
         ],
-        answer: 2,
-        explanation: "Sesuai panduan wiring Yahboom Button Module: GND terhubung ke GND, NC ke P9, OUT (sinyal tombol) ke pin P8, dan VCC ke tegangan 3.3V."
+        answer: 0,
+        explanation: "Variabel `coin_count` diawali dari 0. Setiap ada halangan (koin masuk), variabel bertambah 1 (`change by 1`). Setelah 3 kali koin lewat, nilai variabel menjadi 3 dan langsung ditampilkan pada Digital Tube."
       },
 
-      // 9. TEORI - Blok Math: map
+      // 9. PRAKTIK - Wiper Cerdas / Smart Wiper (Looping & Servo)
       {
         id: 9,
-        type: "teori",
-        topic: "MakeCode Math",
-        question: "Apa fungsi utama dari blok matematika 'map [value] from low ... high ... to low ... high ...' di MakeCode?",
+        type: "praktik",
+        topic: "Proyek Smart Wiper (Loops & Servo)",
+        question: "Perhatikan blok fungsi penyeka kaca otomatis (Smart Wiper) berikut. Berapa total waktu (dalam satuan detik) yang dihabiskan untuk satu kali siklus pembersihan kaca?",
+        code: `<div class="mc-block mc-loops">repeat 4 times do</div>
+<div class="pl-4 border-l-2 border-emerald-500/50 my-1 space-y-1">
+  <div><span class="mc-block mc-servo">set Servo pin P1 to 30</span></div>
+  <div><span class="mc-block mc-basic">pause (ms) 250</span></div>
+  <div><span class="mc-block mc-servo">set Servo pin P1 to 150</span></div>
+  <div><span class="mc-block mc-basic">pause (ms) 250</span></div>
+</div>`,
         options: [
-          "Menghapus seluruh variabel yang ada di memori",
-          "Mengubah/memetakan rentang nilai suatu skala sensor ke dalam rentang nilai skala target yang berbeda",
-          "Menggambar peta navigasi peta dunia di layar LED micro:bit",
-          "Mengunci putaran servo agar berhenti bergerak"
+          "2 detik (2000 ms)",
+          "1 detik (1000 ms)",
+          "4 detik (4000 ms)",
+          "0,5 detik (500 ms)"
         ],
-        answer: 1,
-        explanation: "Fungsi `map` berguna untuk penskalaan nilai, misalnya mengubah input sensor suara (rentang 0-255) ke rentang skor layar (0-9) atau sudut servo (0-150)."
+        answer: 0,
+        explanation: "Dalam setiap putaran loop terdapat dua kali jeda: 250 ms + 250 ms = 500 ms per gerakan bolak-balik. Karena diulang sebanyak 4 kali (`repeat 4 times`), total waktunya adalah 4 × 500 ms = 2000 ms (setara dengan 2 detik)."
       },
 
-      // 10. PRAKTIK - Analisis Kode Map Joystick
+      // 10. PRAKTIK - Penyortir Warna (Color Sorter)
       {
         id: 10,
         type: "praktik",
-        topic: "Analisis Kode & Math (map)",
-        question: "Perhatikan blok perhitungan analog joystick pada fungsi doJoystick_control berikut. Jika tuas joystick pada Pin P0 berada di posisi tengah/bawah dengan nilai 520, berapakah nilai variabel 'a' yang dihasilkan?",
-        code: `<div class="mc-block mc-var">set a to</div> <div class="mc-block mc-math">map (analog read pin P0) from low 520 high 1023 to low 0 high 150</div>`,
+        topic: "Proyek Color Sorter (Color Recognition)",
+        question: "Alat pemilah balok (Color Sorter) memeriksa warna balok lego yang lewat. Jika sensor mendeteksi balok berwarna HIJAU ('Green'), di sudut berapakah servo pemilah P1 akan berhenti?",
+        code: `<div class="mc-block mc-var">set detected_color to</div> <div class="mc-block mc-sensor">Color Recognition read color</div>
+<div><span class="mc-block mc-logic">if detected_color == "Red" then</span></div>
+<div class="pl-4"><span class="mc-block mc-servo">set Servo pin P1 to 45</span></div>
+<div><span class="mc-block mc-logic">else if detected_color == "Green" then</span></div>
+<div class="pl-4"><span class="mc-block mc-servo">set Servo pin P1 to 135</span></div>
+<div><span class="mc-block mc-logic">else</span></div>
+<div class="pl-4"><span class="mc-block mc-servo">set Servo pin P1 to 90</span></div>`,
         options: [
-          "0",
-          "150",
-          "520",
-          "1023"
+          "Sudut 135°",
+          "Sudut 45°",
+          "Sudut 90°",
+          "Sudut 0°"
         ],
         answer: 0,
-        explanation: "Fungsi `map` mengonversi rentang sumber [520 s/d 1023] ke [0 s/d 150]. Karena input bernilai 520 (batas terendah dari rentang input), maka hasil pemetaannya adalah 0 (batas terendah target)."
+        explanation: "Karena warna yang dideteksi adalah 'Green', percabangan `else if detected_color == 'Green'` terpenuhi sehingga servo pin P1 diinstruksikan berputar tepat ke sudut 135°."
       },
 
-      // 11. PRAKTIK - Analisis Durasi Loop
+      // 11. PRAKTIK - Pengukur Suhu & Kelembaban (DHT11 / Temp-Humidity)
       {
         id: 11,
         type: "praktik",
-        topic: "Analisis Blok Loops",
-        question: "Pada fungsi pendeteksi suara proyek Lifting Platform, terdapat blok pengulangan (loops) berikut. Berapa total waktu jeda (durasi) yang dihabiskan untuk menyelesaikan 20 kali putaran loop tersebut?",
-        code: `<div class="mc-block mc-loops">repeat 20 times do</div>
-<div class="pl-4 border-l-2 border-emerald-500/50 my-1 space-y-1">
-  <div><span class="mc-block mc-var">set sound to sound level</span></div>
-  <div><span class="mc-block mc-basic">plot bar graph of sound up to 255</span></div>
-  <div><span class="mc-block mc-basic">pause (ms) 50</span></div>
+        topic: "Proyek Thermometer (Temp-Humidity Sensor)",
+        question: "Perhatikan blok pemantau suhu ruangan berikut. Jika sensor membaca suhu udara ruangan sebesar 34°C, gambar ikon apa yang akan muncul di layar LED micro:bit?",
+        code: `<div class="mc-block mc-basic">forever</div>
+<div class="pl-4 border-l-2 border-sky-500/50 my-1 space-y-1">
+  <div><span class="mc-block mc-var">set temp to</span> <span class="mc-block mc-sensor">read temperature (°C)</span></div>
+  <div><span class="mc-block mc-logic">if temp &gt;= 32 then</span></div>
+  <div class="pl-4"><span class="mc-block mc-basic">show icon ANGRY</span> <span class="text-xs text-rose-400 font-mono">// Wajah Gerah/Panas</span></div>
+  <div><span class="mc-block mc-logic">else</span></div>
+  <div class="pl-4"><span class="mc-block mc-basic">show icon HAPPY</span> <span class="text-xs text-sky-400 font-mono">// Wajah Sejuk</span></div>
 </div>`,
         options: [
-          "100 milidetik (0,1 detik)",
-          "500 milidetik (0,5 detik)",
-          "1000 milidetik (1,0 detik)",
-          "2000 milidetik (2,0 detik)"
+          "Ikon Wajah ANGRY (marah/kepanasan)",
+          "Ikon Wajah HAPPY (senang/sejuk)",
+          "Ikon Hati (HEART)",
+          "Layar LED gelap padam"
         ],
-        answer: 2,
-        explanation: "Di setiap putaran terdapat jeda `pause 50 ms`. Karena diulang sebanyak 20 kali, total durasi adalah 20 × 50 ms = 1000 milidetik (setara 1 detik penuh)."
+        answer: 0,
+        explanation: "Suhu yang terbaca adalah 34°C. Karena 34 >= 32 bernilai BENAR (kondisi panas/melebihi ambang batas), blok program mengeksekusi `show icon ANGRY`."
       },
 
-      // 12. PRAKTIK - Math: pick random & Logic
+      // 12. PRAKTIK - Math: Map Joystick ke Pengatur Lampu
       {
         id: 12,
         type: "praktik",
-        topic: "Interactive Box & Math (random)",
-        question: "Perhatikan fungsi doHit pada Interactive Box berikut. Kondisi apa yang harus terpenuhi agar micro:bit bereaksi 'sangat kesal' dengan memukul servo berulang kali (repeat pick random 2 to 5 times)?",
-        code: `<div class="mc-block mc-var">set num to</div> <div class="mc-block mc-math">pick random 0 to 3</div>
-<div><span class="mc-block mc-logic">if num == 3 then</span></div>
-<div class="pl-4 border-l-2 border-teal-500/50 my-1">
-  <span class="mc-block mc-loops">repeat pick random 2 to 5 times do ...</span>
-</div>`,
+        topic: "Proyek Rocker Control Light (Math map)",
+        question: "Tuas joystick (Rocker module) sumbu X terhubung ke pin analog P0. Nilai analog dibaca dari 0 sampai 1023. Jika tuas digeser maksimal ke kanan sehingga pin P0 bernilai 1023, berapa nilai variabel 'brightness'?",
+        code: `<div class="mc-block mc-var">set brightness to</div> <div class="mc-block mc-math">map (analog read pin P0) from low 0 high 1023 to low 0 high 255</div>
+<div><span class="mc-block mc-sensor">RGB set Red brightness Green 0 Blue 0</span></div>`,
         options: [
-          "Setiap kali tombol A micro:bit ditekan",
-          "Hanya ketika angka acak yang dihasilkan pada variabel 'num' bernilai tepat 3",
-          "Kapan pun sensor inframerah melihat ada tangan di depannya",
-          "Ketika variabel num bernilai angka 0"
+          "255",
+          "1023",
+          "0",
+          "512"
         ],
-        answer: 1,
-        explanation: "Kondisi `if num == 3 then` memeriksa apakah variabel acak `num` bernilai tepat 3. Dari pilihan rentang 0 sampai 3 (0, 1, 2, 3), aksi ekstra hanya berjalan jika angka 3 yang terpilih."
+        answer: 0,
+        explanation: "Fungsi `map` mengonversi rentang input [0 s/d 1023] ke rentang target [0 s/d 255]. Karena input bernilai 1023 (titik maksimum input), maka hasil nilai brightness yang dihasilkan adalah 255 (titik maksimum target)."
       },
 
-      // 13. PRAKTIK - Math: round & map
+      // 13. PRAKTIK - Alarm Keamanan Tubuh Manusia (Human Body Alarm)
       {
         id: 13,
         type: "praktik",
-        topic: "MakeCode Math (round & map)",
-        question: "Perhatikan kode konversi skor suara berikut. Jika ruangan sangat berisik sehingga intensitas suara (sound) terbaca maksimal di angka 255, skor apa yang muncul di layar LED?",
-        code: `<div class="mc-block mc-var">set score to</div> <div class="mc-block mc-math">round (map sound from low 0 high 255 to low 0 high 9)</div>
-<div><span class="mc-block mc-basic">show number score</span></div>`,
+        topic: "Proyek Human Body Warning (PIR & Buzzer)",
+        question: "Perhatikan alur deteksi penyusup berikut. Ketika sensor PIR mendeteksi ada tubuh manusia lewat di depannya, melodi bunyi apakah yang akan dibunyikan oleh micro:bit?",
+        code: `<div class="mc-block mc-basic">forever</div>
+<div class="pl-4 border-l-2 border-sky-500/50 my-1 space-y-1">
+  <div><span class="mc-block mc-logic">if Human body detected then</span></div>
+  <div class="pl-4 space-y-1">
+    <div><span class="mc-block mc-music">start melody SIREN repeating once</span></div>
+    <div><span class="mc-block mc-sensor">RGB show color RED</span></div>
+  </div>
+  <div><span class="mc-block mc-logic">else</span></div>
+  <div class="pl-4">
+    <div><span class="mc-block mc-sensor">RGB show color GREEN</span></div>
+  </div>
+</div>`,
         options: [
-          "Angka 0",
-          "Angka 9",
-          "Angka 100",
-          "Angka 255"
+          "Membunyikan melodi SIREN peringatan dan menyalakan lampu RGB warna MERAH (RED)",
+          "Membunyikan musik lagu tidur yang lembut",
+          "Menyalakan lampu RGB warna HIJAU dan mematikan micro:bit",
+          "Tidak membunyikan apa pun"
         ],
-        answer: 1,
-        explanation: "Fungsi `map` mengubah skala 0–255 ke 0–9. Karena nilai input berada di puncak maksimal yaitu 255, luaran yang dibulatkan oleh `round()` adalah angka 9."
+        answer: 0,
+        explanation: "Jika terdeteksi tubuh manusia (`Human body detected` bernilai benar), program memanggil `start melody SIREN repeating once` sekaligus menyalakan lampu RGB merah sebagai tanda peringatan bahaya."
       },
 
-      // 14. PRAKTIK - Troubleshooting Servo Ganda
+      // 14. PRAKTIK - Bunga Matahari Pelacak Cahaya (Sunflower Project)
       {
         id: 14,
         type: "praktik",
-        topic: "Lifting Platform Troubleshooting",
-        question: "Platform pengangkat digerakkan oleh 2 servo: Servo Kiri (P1) dan Servo Kanan (P2). Jika murid lupa menuliskan blok inisialisasi untuk Servo P2 pada blok 'on start', apa kendala mekanis yang akan terjadi?",
-        code: `<div class="mc-block mc-basic">on start</div>
-<div class="pl-4 border-l-2 border-sky-500/50 my-1">
-  <div><span class="mc-block mc-servo">Servo(360) pin P1 value 100</span></div>
-  <div class="text-xs text-rose-400 font-mono italic">// Perintah Servo P2 terlupa / tidak ditulis!</div>
-</div>`,
+        topic: "Proyek Sunflower (Photosensitive & Servo Tracking)",
+        question: "Proyek robot Bunga Matahari (Sunflower) membandingkan sensor cahaya Kiri (Pin P0) dan sensor cahaya Kanan (Pin P1). Jika senter diarahkan ke Kanan sehingga sensor P1 membaca 850 dan sensor P0 membaca 200, ke manakah servo akan bergerak?",
+        code: `<div class="mc-block mc-var">set left_light to analog read pin P0</div>
+<div class="mc-block mc-var">set right_light to analog read pin P1</div>
+<div><span class="mc-block mc-logic">if right_light &gt; left_light then</span></div>
+<div class="pl-4"><span class="mc-block mc-servo">change servo_angle by 10</span> <span class="text-xs text-slate-400 font-mono">// Putar ke Kanan</span></div>
+<div><span class="mc-block mc-logic">else if left_light &gt; right_light then</span></div>
+<div class="pl-4"><span class="mc-block mc-servo">change servo_angle by -10</span> <span class="text-xs text-slate-400 font-mono">// Putar ke Kiri</span></div>`,
         options: [
-          "Kedua servo tetap bekerja normal dan seimbang",
-          "Hanya servo P1 yang turun ke posisi dasar, sedangkan servo P2 tidak terinisialisasi sehingga platform menjadi miring atau tersangkut",
-          "Papan micro:bit akan langsung mati total",
-          "Sensor inframerah akan menyala merah secara otomatis"
+          "Sudut servo bertambah +10° (berputar mengejar arah datangnya cahaya ke Kanan)",
+          "Sudut servo berkurang -10° (berputar ke Kiri menjauhi cahaya)",
+          "Servo langsung berhenti dan mati",
+          "Micro:bit menampilkan pesan error"
         ],
-        answer: 1,
-        explanation: "Karena platform pengangkat membutuhkan dua servo yang bergerak simetris, ketiadaan instruksi pada servo P2 menyebabkan posisinya tidak seimbang dengan P1, membuat platform miring dan macet."
+        answer: 0,
+        explanation: "Karena nilai cahaya kanan (850) lebih besar daripada cahaya kiri (200), kondisi `if right_light > left_light` terpenuhi, sehingga servo menambah sudutnya sebesar +10° untuk menghadapkan kepala bunga ke arah kanan."
       },
 
-      // 15. PRAKTIK - Alur Logika Forever Loop
+      // 15. PRAKTIK - Troubleshooting Pinout & Wiring (Bug Hunting)
       {
         id: 15,
         type: "praktik",
-        topic: "Interactive Box Control Flow",
-        question: "Pada proyek Interactive Box, balok stick sudah ditegakkan di depan sensor IR, namun servo sama sekali tidak memukul balik. Setelah dicek, loop forever tampak seperti kode di bawah. Di mana letak kesalahannya?",
+        topic: "Troubleshooting Perkabelan (Wiring Bug)",
+        question: "Seorang murid memasang kabel modul Tombol (Button module) ke expansion board dengan benar: kabel OUT tombol terpasang ke Pin P8. Namun, saat tombol ditekan robot tidak merespon sama sekali. Perhatikan gambar kode murid tersebut. Di manakah letak kesalahannya?",
         code: `<div class="mc-block mc-basic">forever</div>
-<div class="pl-4 border-l-2 border-sky-500/50 my-1 space-y-1">
-  <div><span class="mc-block mc-logic">if IR pin P2P3 value Obstacle then</span></div>
-  <div class="pl-4 text-xs text-amber-300 font-mono italic">// Kosong! Fungsi doHit lupa dipanggil di sini!</div>
-  <div><span class="mc-block mc-logic">else if IR pin P2P3 value NoObstacle then</span></div>
-  <div class="pl-4"><span class="mc-block mc-loops">call doWithdraw</span></div>
+<div class="pl-4 border-l-2 border-rose-500/50 my-1 space-y-1">
+  <div><span class="mc-block mc-logic">if Button pin P0 value Press then</span></div>
+  <div class="pl-4"><span class="mc-block mc-basic">show icon YES</span></div>
 </div>`,
         options: [
-          "Program lupa menyisipkan perintah 'call doHit' di dalam blok kondisi ketika terdeteksi rintangan (Obstacle)",
-          "Kabel GND dan VCC terbalik di dalam kode pemrograman",
-          "Perintah doWithdraw seharusnya dihapus karena tidak dibutuhkan",
-          "Sensor inframerah tidak boleh dipasang pada loop forever"
+          "Blok pembaca tombol di kode salah memilih pin; tertulis Pin P0 padahal kabel terpasang di Pin P8",
+          "Kabel USB ke komputer harus dilepas saat tombol ditekan",
+          "Blok `forever` tidak boleh digunakan untuk memeriksa tombol",
+          "Tombol pada modul Yahboom hanya bisa ditekan satu kali seumur hidup"
         ],
         answer: 0,
-        explanation: "Di dalam blok `if IR pin value Obstacle then`, slot instruksinya kosong. Akibatnya ketika rintangan terdeteksi, micro:bit tidak menjalankan perintah apapun. Seharusnya subrutin `call doHit` dipanggil di situ."
+        explanation: "Hardware tombol terhubung ke Pin P8, namun blok program membaca `Button pin P0`. Karena micro:bit memeriksa pin yang salah (P0 bukan P8), sinyal penekanan tombol tidak akan pernah terbaca oleh program."
+      },
+
+      // 16. PRAKTIK - Kotak Interaktif: Logika Siklus Bertahan (Interactive Box Hit Back)
+      {
+        id: 16,
+        type: "praktik",
+        topic: "Proyek Interactive Box (Logika doHit)",
+        question: "Perhatikan fungsi doHit pada kotak interaktif Yahboom berikut. Setelah servo memukul balik tongkat balok ke sudut 280°, mengapa program harus memberi instruksi memutar kembali servo ke sudut 170°?",
+        code: `<div class="mc-block mc-loops">function doHit</div>
+<div class="pl-4 border-l-2 border-amber-500/50 my-1 space-y-1">
+  <div><span class="mc-block mc-servo">Servo(360) pin P1 value 280</span> <span class="text-xs text-slate-400 font-mono">// Dorong balok keluar</span></div>
+  <div><span class="mc-block mc-basic">pause (ms) 300</span></div>
+  <div><span class="mc-block mc-servo">Servo(360) pin P1 value 170</span> <span class="text-xs text-slate-400 font-mono">// Tarik lengan masuk</span></div>
+  <div><span class="mc-block mc-basic">pause (ms) 300</span></div>
+</div>`,
+        options: [
+          "Untuk menarik kembali lengan robot bersembunyi masuk ke dalam kotak dan bersiap untuk aksi berikutnya",
+          "Agar motor servo berputar terus seperti kincir angin",
+          "Untuk memutuskan aliran arus baterai",
+          "Supaya sensor inframerah bisa mengukur suhu panas servo"
+        ],
+        answer: 0,
+        explanation: "Langkah ini adalah prinsip utama 'Interactive / Useless Box': setelah lengan keluar (sudut 280°) untuk mendorong tuas balik, servo harus segera menarik lengan kembali ke posisi awal di dalam kotak (sudut 170°) agar kotak kembali tertutup rapi."
       }
     ];
 
-    const STORAGE_KEY = "microbit_kids_exam_v1";
+    const STORAGE_KEY = "microbit_kids_exam_v2_wom";
     const TOTAL_DURATION_SECONDS = 20 * 60; // 20 Menit = 1200 detik
 
     let currentQuestionIndex = 0;
